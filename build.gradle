@@ -4,6 +4,14 @@ plugins {
     id 'java'
     id 'org.flywaydb.flyway' version '6.3.1'
     id 'com.thinkimi.gradle.MybatisGenerator' version '2.1.2'
+    id 'org.checkerframework' version '0.6.28'
+}
+
+apply plugin: 'org.checkerframework'
+
+configurations {
+    checkerFrameworkAnnotatedJDK
+    annotationProcessors
 }
 
 group = 'dev.yukiho'
@@ -44,6 +52,11 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
+    // checkerframework
+    def checkerFrameworkVersion ='1.9.13'
+    compileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+    testCompileOnly "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+    checkerFramework "org.checkerframework:checker:${checkerFrameworkVersion}"
 }
 
 test {
@@ -63,6 +76,13 @@ ext {
     targetProject = 'src/main/java'
     modelPackage = 'dev.yukiho.cers.db.model'
     mapperPackage = 'dev.yukiho.cers.db.mapper'
+}
+
+checkerFramework {
+    checkers = [
+            'org.checkerframework.checker.nullness.NullnessChecker',
+            'org.checkerframework.checker.units.UnitsChecker'
+    ]
 }
 
 apply from: 'flyway.gradle'
