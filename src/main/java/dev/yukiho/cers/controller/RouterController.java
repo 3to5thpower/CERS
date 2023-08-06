@@ -14,7 +14,6 @@ public class RouterController implements ErrorController {
         return "index.html";
     }
 
-    @Override
     public String getErrorPath() {
         return ERROR_PATH;
     }
